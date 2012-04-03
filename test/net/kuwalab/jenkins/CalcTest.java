@@ -1,14 +1,13 @@
 package net.kuwalab.jenkins;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class CalcTest {
-
 	@Test
 	public void testAdd() {
-		fail("Not yet implemented");
+		Assert.assertThat(Calc.add(2, 3), is(5));
 	}
-
 }
