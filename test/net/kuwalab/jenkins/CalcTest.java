@@ -9,5 +9,6 @@ public class CalcTest {
 	@Test
 	public void testAdd() {
 		Assert.assertThat(Calc.add(2, 3), is(5));
+		Assert.assertThat(Calc.add(1, 3), is(4));
 	}
 }
