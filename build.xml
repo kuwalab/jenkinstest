@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="report" name="test">
+  <!-- プロパティ -->
+  <property name="lib.dir" value="./lib" />
+  <property name="src.dir" value="./src" />
+  <property name="test.dir" value="./test" />
+  <property name="dest.dir" value="./dest" />
+  <property name="doc.dir" value="./doc" />
+  <property name="report.dir" value="${doc.dir}/reports" />
+  <property name="result.dir" value="${doc.dir}/result" />
+
+  <path id="classpath">
+    <pathelement location="dest" />
+    <fileset dir="${lib.dir}">
+      <include name="**/*.jar" />
+    </fileset>
+  </path>
+
+  <!-- 初期化 -->
+  <target name="init_junit">
+    <mkdir dir="${doc.dir}" />
+    <mkdir dir="${report.dir}" />
+    <mkdir dir="${result.dir}" />
+  </target>
+
+  <target name="compile">
+    <javac srcdir="${src.dir}"
+           destdir="${dest.dir}"
+           classpathref="classpath"
+           debug="on"
+           includeantruntime="false"
+           optimize="off"
+           deprecation="off" />
+    <javac srcdir="${test.dir}"
+           destdir="${dest.dir}"
+           classpathref="classpath"
+           debug="on"
+           includeantruntime="false"
+           optimize="off"
+           deprecation="off" />
+  </target>
+
+  <!-- テスト -->
+  <target name="junit" depends="init_junit">
+    <delete>
+      <fileset dir="${report.dir}" includes="**/*" />
+      <fileset dir="${result.dir}" includes="**/*" />
+    </delete>
+
+    <!-- テストを実行して結果をXMLファイルとして出力 -->
+    <junit printsummary="yes" haltonfailure="no">
+      <classpath refid="classpath" />
+      <formatter type="xml" />
+      <batchtest fork="yes" todir="${report.dir}">
+        <fileset dir="${test.dir}">
+          <include name="**/*Test.java" />
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+  <target name="report" depends="compile,junit">
+    <!-- XMLファイルを基にHTML形式のレポートを出力 -->
+    <junitreport todir="${report.dir}">
+      <fileset dir="${report.dir}">
+        <include name="TEST-*.xml" />
+      </fileset>
+      <report format="frames" todir="${result.dir}" />
+    </junitreport>
+  </target>
+
+</project>
