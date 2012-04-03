@@ -32,14 +32,6 @@
            includeantruntime="false"
            optimize="off"
            deprecation="off" />
-    <javac srcdir="${test.dir}"
-           destdir="${dest.dir}"
-           classpathref="classpath"
-           debug="on"
-           encoding="Windows-31J"
-           includeantruntime="false"
-           optimize="off"
-           deprecation="off" />
   </target>
 
   <!-- テスト -->
